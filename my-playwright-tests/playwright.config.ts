@@ -24,7 +24,8 @@ export default defineConfig({
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
  reporter: [['html', { outputFolder: 'playwright-report', open: 'never' }]],
   use: {
-    screenshot: 'only-on-failure',
+    screenshot: 'on', // Captures images for the report
+    trace: 'on-first-retry', // Captures a full "video-like" trace of failures
   },
 
   /* Configure projects for major browsers */
