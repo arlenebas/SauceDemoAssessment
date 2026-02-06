@@ -7,36 +7,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 18
 
-      - name: Install dependencies
-        # This command finds the project folder and installs there
+      - name: Run Everything
         run: |
+          # 1. Find where the project is
           PROJECT_DIR=$(find . -name "package.json" -not -path "*/node_modules/*" -exec dirname {} \; | head -n 1)
-          echo "Found project in: $PROJECT_DIR"
           cd $PROJECT_DIR
+          
+          # 2. Install and Run
           npm install
-
-      - name: Install Playwright Browsers
-        run: |
-          PROJECT_DIR=$(find . -name "package.json" -not -path "*/node_modules/*" -exec dirname {} \; | head -n 1)
-          cd $PROJECT_DIR
           npx playwright install --with-deps
-
-      - name: Run Playwright tests
-        run: |
-          PROJECT_DIR=$(find . -name "package.json" -not -path "*/node_modules/*" -exec dirname {} \; | head -n 1)
-          cd $PROJECT_DIR
           npx playwright test --reporter=html
 
       - name: Upload Report
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report
+          name: Arlene-Test-Assessment-Report
           path: "**/playwright-report/"
           retention-days: 30

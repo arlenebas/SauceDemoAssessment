@@ -11,20 +11,15 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install dependencies
-        # This command finds the folder containing package.json and runs npm install there
+      - name: Run Everything
         run: |
-          cd $(find . -name package.json -exec dirname {} \;)
+          # 1. Find where the project is
+          PROJECT_DIR=$(find . -name "package.json" -not -path "*/node_modules/*" -exec dirname {} \; | head -n 1)
+          cd $PROJECT_DIR
+          
+          # 2. Install and Run
           npm install
-        
-      - name: Install Playwright Browsers
-        run: |
-          cd $(find . -name package.json -exec dirname {} \;)
           npx playwright install --with-deps
-
-      - name: Run Playwright tests
-        run: |
-          cd $(find . -name package.json -exec dirname {} \;)
           npx playwright test --reporter=html
 
       - name: Upload Report
