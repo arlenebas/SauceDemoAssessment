@@ -22,11 +22,15 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
- reporter: [['html', { outputFolder: 'playwright-report', open: 'never' }]],
-  use: {
-    screenshot: 'on', // Captures images for the report
-    trace: 'on-first-retry', // Captures a full "video-like" trace of failures
-  },
+reporter: [
+  ['html', { 
+    outputFolder: 'playwright_typescript-report', // for report folder
+    open: 'never',
+    host: '0.0.0.0',
+    port: 9223,
+    title: 'SauceDemo E2E Assessment Results' // for test title result
+  }]
+],
 
   /* Configure projects for major browsers */
   projects: [
@@ -47,28 +51,10 @@ export default defineConfig({
 
     {
       name: 'Mobile Safari',
-      use: { ...devices['iPhone 13'] }, // This sets the screen to 390x844
+      use: { ...devices['iPhone 13'] }, 
     },
 
-    /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
-    // },
 
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    // },
   ],
 
  
