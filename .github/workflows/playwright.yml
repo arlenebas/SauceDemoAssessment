@@ -3,19 +3,24 @@ on: [push]
 jobs:
   test:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        # This matches the folder name visible in your screenshot!
+        working-directory: my-playwright-tests
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 18
 
-      - name: Install and Run
-        run: |
-          DIR=$(find . -name "package.json" -not -path "*/node_modules/*" -exec dirname {} \; | head -n 1)
-          cd "$DIR"
-          npm install
-          npx playwright install --with-deps
-          npx playwright test --reporter=html
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install Playwright
+        run: npx playwright install --with-deps
+
+      - name: Run Tests
+        run: npx playwright test --reporter=html
 
       - name: Upload Report
         uses: actions/upload-artifact@v4
