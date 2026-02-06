@@ -32,7 +32,7 @@ reporter: [
   }]
 ],
 
-  /* Configure projects for major browsers */
+  /* Configure for major browsers */
   projects: [
     {
       name: 'chromium',
